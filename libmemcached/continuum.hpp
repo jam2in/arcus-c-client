@@ -43,4 +43,5 @@ struct memcached_continuum_item_st
 {
   uint32_t index;
   uint32_t value;
+  char sort_host[MEMCACHED_MAX_HOST_SORT_LENGTH];
 };

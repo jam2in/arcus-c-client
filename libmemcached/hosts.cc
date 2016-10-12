@@ -186,7 +186,7 @@ static int continuum_item_cmp(const void *t1, const void *t2)
   /* Why 153? Hmmm... */
   WATCHPOINT_ASSERT(ct1->value != 153);
   if (ct1->value == ct2->value)
-    return 0;
+    return strcmp(ct1->sort_host, ct2->sort_host);
   else if (ct1->value > ct2->value)
     return 1;
   else
@@ -352,6 +352,7 @@ static memcached_return_t update_continuum(memcached_st *ptr)
           for (uint32_t x= 0; x < pointer_per_hash; x++)
           {
             uint32_t value= ketama_server_hash(sort_host, (size_t)sort_host_length, x);
+            memcpy(ptr->ketama.continuum[continuum_index].sort_host, sort_host, sort_host_length);
             ptr->ketama.continuum[continuum_index].index= host_index;
             ptr->ketama.continuum[continuum_index++].value= value;
           }
@@ -359,6 +360,7 @@ static memcached_return_t update_continuum(memcached_st *ptr)
         else
         {
           uint32_t value= hashkit_digest(&ptr->hashkit, sort_host, (size_t)sort_host_length);
+          memcpy(ptr->ketama.continuum[continuum_index].sort_host, sort_host, sort_host_length);
           ptr->ketama.continuum[continuum_index].index= host_index;
           ptr->ketama.continuum[continuum_index++].value= value;
         }
@@ -400,6 +402,7 @@ static memcached_return_t update_continuum(memcached_st *ptr)
           for (uint32_t x = 0; x < pointer_per_hash; x++)
           {
             uint32_t value= ketama_server_hash(sort_host, (size_t)sort_host_length, x);
+            memcpy(ptr->ketama.continuum[continuum_index].sort_host, sort_host, sort_host_length);
             ptr->ketama.continuum[continuum_index].index= host_index;
             ptr->ketama.continuum[continuum_index++].value= value;
           }
@@ -407,6 +410,7 @@ static memcached_return_t update_continuum(memcached_st *ptr)
         else
         {
           uint32_t value= hashkit_digest(&ptr->hashkit, sort_host, (size_t)sort_host_length);
+          memcpy(ptr->ketama.continuum[continuum_index].sort_host, sort_host, sort_host_length);
           ptr->ketama.continuum[continuum_index].index= host_index;
           ptr->ketama.continuum[continuum_index++].value= value;
         }
